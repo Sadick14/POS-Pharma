@@ -1,0 +1,9 @@
+#!/bin/bash
+echo "Starting HealthCare Plus Pharmacy Inventory System on http://localhost:8000..."
+docker run --rm -it \
+  -p 8000:8000 \
+  -u $(id -u):$(id -g) \
+  -e HOME=/tmp \
+  -v "$PWD:/app" \
+  -w /app \
+  composer:2.7 php artisan serve --host=0.0.0.0 --port=8000
