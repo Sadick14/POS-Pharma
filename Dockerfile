@@ -31,17 +31,21 @@ WORKDIR /app
 # Copy project files
 COPY . /app
 
+# Ensure .env exists
+RUN if [ ! -f .env ]; then cp .env.example .env 2>/dev/null || touch .env; fi
+
 # Install PHP production dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Prepare storage & cache directories with write permissions
+# Prepare storage, cache, database and .env with write permissions
 RUN mkdir -p /app/storage/framework/cache/data \
     /app/storage/framework/sessions \
     /app/storage/framework/views \
     /app/storage/logs \
     /app/bootstrap/cache \
     /app/database \
- && chmod -R 777 /app/storage /app/bootstrap/cache /app/database
+ && touch /app/.env \
+ && chmod -R 777 /app/storage /app/bootstrap/cache /app/database /app/.env
 
 # Copy and setup entrypoint script
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh

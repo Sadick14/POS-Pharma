@@ -3,6 +3,16 @@ set -e
 
 cd /app
 
+# Ensure .env file exists and is writable
+if [ ! -f /app/.env ]; then
+    if [ -f /app/.env.example ]; then
+        cp /app/.env.example /app/.env
+    else
+        touch /app/.env
+    fi
+fi
+chmod 666 /app/.env
+
 # Ensure SQLite file exists if using sqlite connection
 if [ "${DB_CONNECTION:-sqlite}" = "sqlite" ]; then
     DB_FILE="${DB_DATABASE:-/app/database/database.sqlite}"
@@ -23,26 +33,26 @@ mkdir -p storage/framework/cache/data \
 
 chmod -R 777 storage bootstrap/cache
 
-# Generate APP_KEY if not already set
+# Generate APP_KEY if not set in environment variable or .env file
 if [ -z "$APP_KEY" ]; then
-    echo "Warning: APP_KEY not set. Generating application key..."
-    php artisan key:generate --force
+    if ! grep -q "^APP_KEY=base64:" /app/.env 2>/dev/null; then
+        echo "Generating application key..."
+        php artisan key:generate --force
+    fi
 fi
 
 # Run database migrations
 echo "Running database migrations..."
 php artisan migrate --force
 
-# Seed initial database if no users exist
+# Seed initial database records
 echo "Checking and seeding initial records..."
 php artisan db:seed --force || true
 
-# Optimize cache for production if in production environment
-if [ "${APP_ENV:-production}" = "production" ]; then
-    php artisan config:cache || true
-    php artisan route:cache || true
-    php artisan view:cache || true
-fi
+# Clear previous caches
+php artisan config:clear || true
+php artisan route:clear || true
+php artisan view:clear || true
 
 # Determine port (Railway sets PORT environment variable)
 PORT_TO_BIND="${PORT:-8000}"
