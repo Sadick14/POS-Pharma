@@ -20,8 +20,11 @@ class InventoryTest extends TestCase
     use RefreshDatabase;
 
     protected User $user;
+
     protected Category $category;
+
     protected Supplier $supplier;
+
     protected Medicine $medicine;
 
     protected function setUp(): void

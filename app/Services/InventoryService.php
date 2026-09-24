@@ -100,7 +100,7 @@ class InventoryService
         DB::transaction(function () use ($purchase, $itemsData, $userId) {
             foreach ($itemsData as $item) {
                 $medicine = Medicine::findOrFail($item['medicine_id']);
-                
+
                 // Find or create batch
                 $batch = MedicineBatch::where('medicine_id', $item['medicine_id'])
                     ->where('batch_number', $item['batch_number'])
@@ -168,7 +168,7 @@ class InventoryService
                 'purchase_received',
                 'Purchases',
                 (string) $purchase->id,
-                "Received purchase invoice #{$purchase->invoice_number} with " . count($itemsData) . " line item(s)"
+                "Received purchase invoice #{$purchase->invoice_number} with ".count($itemsData).' line item(s)'
             );
         });
     }
@@ -180,7 +180,7 @@ class InventoryService
     {
         return DB::transaction(function () use ($batchId, $adjustmentQty, $reason, $notes, $userId) {
             $batch = MedicineBatch::with('medicine')->lockForUpdate()->findOrFail($batchId);
-            
+
             $previousQty = $batch->quantity;
             $newQty = $previousQty + $adjustmentQty;
 
@@ -214,7 +214,7 @@ class InventoryService
                 'quantity' => $adjustmentQty,
                 'reference_type' => StockAdjustment::class,
                 'reference_id' => $adjustment->id,
-                'description' => "Stock adjustment: {$reason} (" . ($adjustmentQty >= 0 ? "+{$adjustmentQty}" : "{$adjustmentQty}") . ")",
+                'description' => "Stock adjustment: {$reason} (".($adjustmentQty >= 0 ? "+{$adjustmentQty}" : "{$adjustmentQty}").')',
                 'created_by' => $userId,
             ]);
 
@@ -242,7 +242,7 @@ class InventoryService
                 $totalRefund += ($item['quantity'] * $item['unit_refund_price']);
             }
 
-            $returnNumber = 'RET-' . date('Ymd') . '-' . str_pad((string) (SalesReturn::count() + 1), 4, '0', STR_PAD_LEFT);
+            $returnNumber = 'RET-'.date('Ymd').'-'.str_pad((string) (SalesReturn::count() + 1), 4, '0', STR_PAD_LEFT);
 
             $salesReturn = SalesReturn::create([
                 'sale_id' => $sale->id,
@@ -269,7 +269,7 @@ class InventoryService
                     'condition_notes' => $item['condition_notes'] ?? null,
                 ]);
 
-                if ($isResalable && !empty($item['batch_id'])) {
+                if ($isResalable && ! empty($item['batch_id'])) {
                     $batch = MedicineBatch::find($item['batch_id']);
                     if ($batch) {
                         $batch->quantity += (int) $item['quantity'];
@@ -307,7 +307,7 @@ class InventoryService
                 'sale_return',
                 'Sales',
                 (string) $salesReturn->id,
-                "Processed return #{$returnNumber} for sale #{$sale->invoice_number}. Total refund: " . number_format($totalRefund, 2)
+                "Processed return #{$returnNumber} for sale #{$sale->invoice_number}. Total refund: ".number_format($totalRefund, 2)
             );
 
             return $salesReturn;

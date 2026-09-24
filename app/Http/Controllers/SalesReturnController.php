@@ -25,6 +25,7 @@ class SalesReturnController extends Controller
     public function create(Sale $sale)
     {
         $sale->load(['customer', 'seller', 'items.medicine', 'items.batch', 'returns.items']);
+
         return view('returns.create', compact('sale'));
     }
 
@@ -61,6 +62,7 @@ class SalesReturnController extends Controller
     public function show(SalesReturn $return)
     {
         $return->load(['sale.customer', 'processor', 'items.medicine', 'items.batch']);
+
         return view('returns.show', compact('return'));
     }
 }

@@ -22,8 +22,8 @@ class AuditLogController extends Controller
             ->when($userId, fn ($q) => $q->where('user_id', $userId))
             ->when($search, function ($q, $search) {
                 $q->where('description', 'like', "%{$search}%")
-                  ->orWhere('action', 'like', "%{$search}%")
-                  ->orWhere('ip_address', 'like', "%{$search}%");
+                    ->orWhere('action', 'like', "%{$search}%")
+                    ->orWhere('ip_address', 'like', "%{$search}%");
             })
             ->latest()
             ->paginate(30)

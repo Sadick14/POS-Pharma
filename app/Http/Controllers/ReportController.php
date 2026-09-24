@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Medicine;
 use App\Models\Purchase;
-use App\Models\Sale;
 use App\Models\Supplier;
 use App\Models\User;
 use App\Services\AlertService;
@@ -23,6 +20,7 @@ class ReportController extends Controller
     public function index()
     {
         $overview = $this->reportService->getFinancialOverview(now()->startOfMonth()->toDateString(), now()->toDateString());
+
         return view('reports.index', compact('overview'));
     }
 
@@ -119,7 +117,7 @@ class ReportController extends Controller
     {
         $headers = [
             'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="sales_report_' . date('Ymd_His') . '.csv"',
+            'Content-Disposition' => 'attachment; filename="sales_report_'.date('Ymd_His').'.csv"',
         ];
 
         return response()->stream(function () use ($sales) {
@@ -147,7 +145,7 @@ class ReportController extends Controller
     {
         $headers = [
             'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="inventory_valuation_' . date('Ymd_His') . '.csv"',
+            'Content-Disposition' => 'attachment; filename="inventory_valuation_'.date('Ymd_His').'.csv"',
         ];
 
         return response()->stream(function () use ($valuationData) {

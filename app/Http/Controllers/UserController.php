@@ -22,8 +22,8 @@ class UserController extends Controller
             ->when($status, fn ($q) => $q->where('status', $status))
             ->when($search, function ($q, $search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('phone', 'like', "%{$search}%");
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%");
             })
             ->orderBy('name')
             ->paginate(15)
@@ -35,6 +35,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = User::$roles;
+
         return view('users.create', compact('roles'));
     }
 
@@ -44,7 +45,7 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'phone' => ['nullable', 'string', 'max:50'],
-            'role' => ['required', 'in:' . implode(',', array_keys(User::$roles))],
+            'role' => ['required', 'in:'.implode(',', array_keys(User::$roles))],
             'status' => ['required', 'in:active,inactive'],
             'password' => ['required', 'confirmed', Password::defaults()],
         ]);
@@ -66,6 +67,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = User::$roles;
+
         return view('users.edit', compact('user', 'roles'));
     }
 
@@ -75,7 +77,7 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'phone' => ['nullable', 'string', 'max:50'],
-            'role' => ['required', 'in:' . implode(',', array_keys(User::$roles))],
+            'role' => ['required', 'in:'.implode(',', array_keys(User::$roles))],
             'status' => ['required', 'in:active,inactive'],
             'password' => ['nullable', 'confirmed', Password::defaults()],
         ]);
@@ -88,7 +90,7 @@ class UserController extends Controller
             'status' => $validated['status'],
         ];
 
-        if (!empty($validated['password'])) {
+        if (! empty($validated['password'])) {
             $updateData['password'] = Hash::make($validated['password']);
         }
 

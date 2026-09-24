@@ -17,7 +17,9 @@ class PosSaleTest extends TestCase
     use RefreshDatabase;
 
     protected User $cashier;
+
     protected Medicine $paracetamol;
+
     protected Customer $customer;
 
     protected function setUp(): void
@@ -70,7 +72,7 @@ class PosSaleTest extends TestCase
                     'quantity' => 3,
                     'unit_price' => 30.00,
                     'discount' => 0.00,
-                ]
+                ],
             ],
             'payment_method' => 'cash',
             'amount_paid' => 100.00,

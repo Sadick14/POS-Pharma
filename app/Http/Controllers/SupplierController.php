@@ -56,6 +56,7 @@ class SupplierController extends Controller
     public function show(Supplier $supplier)
     {
         $supplier->load(['purchases.creator', 'batches.medicine']);
+
         return view('suppliers.show', compact('supplier'));
     }
 

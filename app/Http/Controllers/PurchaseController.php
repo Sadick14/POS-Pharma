@@ -8,7 +8,6 @@ use App\Models\Supplier;
 use App\Services\InventoryService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
@@ -25,7 +24,7 @@ class PurchaseController extends Controller
         $purchases = Purchase::with(['supplier', 'creator', 'items.medicine'])
             ->when($search, function ($q, $search) {
                 $q->where('invoice_number', 'like', "%{$search}%")
-                  ->orWhereHas('supplier', fn ($s) => $s->where('name', 'like', "%{$search}%"));
+                    ->orWhereHas('supplier', fn ($s) => $s->where('name', 'like', "%{$search}%"));
             })
             ->when($supplierId, fn ($q) => $q->where('supplier_id', $supplierId))
             ->when($paymentStatus, fn ($q) => $q->where('payment_status', $paymentStatus))
@@ -88,6 +87,7 @@ class PurchaseController extends Controller
     public function show(Purchase $purchase)
     {
         $purchase->load(['supplier', 'creator', 'items.medicine', 'items.batch']);
+
         return view('purchases.show', compact('purchase'));
     }
 }

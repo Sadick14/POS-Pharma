@@ -7,9 +7,9 @@ use App\Models\Medicine;
 use App\Models\MedicineBatch;
 use App\Models\Purchase;
 use App\Models\Sale;
+use App\Models\StockMovement;
 use App\Models\Supplier;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\DB;
 
 class AlertService
 {
@@ -111,7 +111,7 @@ class AlertService
             ->get();
 
         // Recent stock movements
-        $recentMovements = \App\Models\StockMovement::with(['medicine', 'batch', 'creator'])
+        $recentMovements = StockMovement::with(['medicine', 'batch', 'creator'])
             ->latest()
             ->take(8)
             ->get();
