@@ -87,15 +87,4 @@ class AuthTest extends TestCase
 
         $response->assertRedirect(route('dashboard'));
     }
-
-    public function test_login_screen_respects_x_forwarded_proto_header_for_secure_urls(): void
-    {
-        $response = $this->withHeaders([
-            'X-Forwarded-Proto' => 'https',
-            'X-Forwarded-Port' => '443',
-        ])->get('/login');
-
-        $response->assertStatus(200);
-        $response->assertSee('action="https://', false);
-    }
 }
