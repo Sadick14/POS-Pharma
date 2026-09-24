@@ -13,6 +13,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::withCount('medicines')->orderBy('name')->get();
+
         return view('categories.index', compact('categories'));
     }
 

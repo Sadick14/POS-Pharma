@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\AuditLog;
+use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Medicine;
 use App\Models\Sale;
 use App\Models\Setting;
+use App\Models\User;
 use App\Services\InventoryService;
 use Exception;
 use Illuminate\Http\Request;
@@ -20,7 +22,7 @@ class PosController extends Controller
     public function index()
     {
         $customers = Customer::orderBy('name')->get();
-        $categories = \App\Models\Category::withCount('medicines')->orderBy('name')->get();
+        $categories = Category::withCount('medicines')->orderBy('name')->get();
         $currency = Setting::get('currency_symbol', 'GHS');
         $taxRate = (float) Setting::get('tax_percentage', 0);
 
@@ -73,7 +75,7 @@ class PosController extends Controller
                 $changeDue = max(0, round($amountPaid - $total, 2));
 
                 $prefix = Setting::get('invoice_prefix', 'INV-');
-                $invoiceNumber = $prefix . date('Ymd') . '-' . str_pad((string) (Sale::whereDate('created_at', today())->count() + 1), 4, '0', STR_PAD_LEFT);
+                $invoiceNumber = $prefix.date('Ymd').'-'.str_pad((string) (Sale::whereDate('created_at', today())->count() + 1), 4, '0', STR_PAD_LEFT);
 
                 $sale = Sale::create([
                     'customer_id' => $validated['customer_id'] ?? null,
@@ -107,7 +109,7 @@ class PosController extends Controller
                     'sale_completed',
                     'Sales',
                     (string) $sale->id,
-                    "Completed POS sale #{$sale->invoice_number}. Total: " . number_format($total, 2) . " via " . strtoupper($validated['payment_method'])
+                    "Completed POS sale #{$sale->invoice_number}. Total: ".number_format($total, 2).' via '.strtoupper($validated['payment_method'])
                 );
 
                 return $sale;
@@ -138,12 +140,12 @@ class PosController extends Controller
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
 
-        $staffMembers = \App\Models\User::orderBy('name')->get();
+        $staffMembers = User::orderBy('name')->get();
 
         $sales = Sale::with(['customer', 'seller', 'items.medicine'])
             ->when($search, function ($q, $search) {
                 $q->where('invoice_number', 'like', "%{$search}%")
-                  ->orWhereHas('customer', fn ($c) => $c->where('name', 'like', "%{$search}%")->orWhere('phone', 'like', "%{$search}%"));
+                    ->orWhereHas('customer', fn ($c) => $c->where('name', 'like', "%{$search}%")->orWhere('phone', 'like', "%{$search}%"));
             })
             ->when($staffId, fn ($q) => $q->where('sold_by', $staffId))
             ->when($paymentMethod, fn ($q) => $q->where('payment_method', $paymentMethod))
@@ -159,6 +161,7 @@ class PosController extends Controller
     public function showSale(Sale $sale)
     {
         $sale->load(['customer', 'seller', 'items.medicine', 'items.batch', 'returns.items.medicine', 'returns.processor']);
+
         return view('sales.show', compact('sale'));
     }
 

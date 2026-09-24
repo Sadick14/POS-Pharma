@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AuditLog;
 use App\Models\Category;
 use App\Models\Medicine;
 use App\Models\MedicineBatch;
@@ -54,7 +53,7 @@ class InventoryController extends Controller
                 $q->where('batch_number', 'like', "%{$search}%")
                     ->orWhereHas('medicine', function ($m) use ($search) {
                         $m->where('name', 'like', "%{$search}%")
-                          ->orWhere('generic_name', 'like', "%{$search}%");
+                            ->orWhere('generic_name', 'like', "%{$search}%");
                     });
             })
             ->when($status, function ($q, $status) {
@@ -76,6 +75,7 @@ class InventoryController extends Controller
     public function lowStock()
     {
         $medicines = $this->alertService->getLowStockMedicines();
+
         return view('inventory.low_stock', compact('medicines'));
     }
 

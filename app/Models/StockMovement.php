@@ -10,10 +10,15 @@ class StockMovement extends Model
     use HasFactory;
 
     public const TYPE_PURCHASE_IN = 'purchase_in';
+
     public const TYPE_SALE_OUT = 'sale_out';
+
     public const TYPE_ADJUSTMENT_IN = 'adjustment_in';
+
     public const TYPE_ADJUSTMENT_OUT = 'adjustment_out';
+
     public const TYPE_RETURN_IN = 'return_in';
+
     public const TYPE_DISPOSAL_OUT = 'disposal_out';
 
     protected $fillable = [

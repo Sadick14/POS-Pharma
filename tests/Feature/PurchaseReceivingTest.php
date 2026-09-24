@@ -18,7 +18,9 @@ class PurchaseReceivingTest extends TestCase
     use RefreshDatabase;
 
     protected User $manager;
+
     protected Supplier $supplier;
+
     protected Medicine $medicine;
 
     protected function setUp(): void
@@ -65,8 +67,8 @@ class PurchaseReceivingTest extends TestCase
                     'quantity' => 100,
                     'unit_cost' => 30.00,
                     'selling_price' => 48.00,
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $response->assertStatus(302);

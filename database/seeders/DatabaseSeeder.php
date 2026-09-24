@@ -7,8 +7,6 @@ use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Medicine;
 use App\Models\MedicineBatch;
-use App\Models\Purchase;
-use App\Models\PurchaseItem;
 use App\Models\Sale;
 use App\Models\SaleItem;
 use App\Models\Setting;
@@ -188,7 +186,7 @@ class DatabaseSeeder extends Seeder
                 'batches' => [
                     ['batch_number' => 'PARA-2026-01', 'qty' => 45, 'cost' => 22.00, 'sell' => 35.00, 'exp' => now()->addMonths(6)->toDateString()],
                     ['batch_number' => 'PARA-2026-02', 'qty' => 80, 'cost' => 22.50, 'sell' => 35.00, 'exp' => now()->addMonths(18)->toDateString()],
-                ]
+                ],
             ],
             [
                 'category' => 'Analgesics & Pain Relief',
@@ -204,7 +202,7 @@ class DatabaseSeeder extends Seeder
                 'selling_price' => 28.00,
                 'batches' => [
                     ['batch_number' => 'IBU-2026-01', 'qty' => 30, 'cost' => 17.50, 'sell' => 28.00, 'exp' => now()->addMonths(14)->toDateString()],
-                ]
+                ],
             ],
             [
                 'category' => 'Antibiotics',
@@ -223,7 +221,7 @@ class DatabaseSeeder extends Seeder
                     ['batch_number' => 'AMX-2026-01', 'qty' => 15, 'cost' => 42.00, 'sell' => 65.00, 'exp' => now()->addDays(22)->toDateString()],
                     // Fresh batch
                     ['batch_number' => 'AMX-2026-02', 'qty' => 60, 'cost' => 44.00, 'sell' => 65.00, 'exp' => now()->addMonths(20)->toDateString()],
-                ]
+                ],
             ],
             [
                 'category' => 'Antibiotics',
@@ -239,7 +237,7 @@ class DatabaseSeeder extends Seeder
                 'selling_price' => 45.00,
                 'batches' => [
                     ['batch_number' => 'AZT-2026-01', 'qty' => 25, 'cost' => 28.00, 'sell' => 45.00, 'exp' => now()->addMonths(12)->toDateString()],
-                ]
+                ],
             ],
             [
                 'category' => 'Antimalarials',
@@ -256,7 +254,7 @@ class DatabaseSeeder extends Seeder
                 'batches' => [
                     ['batch_number' => 'CRT-2026-01', 'qty' => 55, 'cost' => 24.00, 'sell' => 38.00, 'exp' => now()->addMonths(15)->toDateString()],
                     ['batch_number' => 'CRT-2026-02', 'qty' => 90, 'cost' => 24.00, 'sell' => 38.00, 'exp' => now()->addMonths(24)->toDateString()],
-                ]
+                ],
             ],
             [
                 'category' => 'Antimalarials',
@@ -272,7 +270,7 @@ class DatabaseSeeder extends Seeder
                 'selling_price' => 42.00,
                 'batches' => [
                     ['batch_number' => 'ART-2026-01', 'qty' => 35, 'cost' => 26.00, 'sell' => 42.00, 'exp' => now()->addMonths(16)->toDateString()],
-                ]
+                ],
             ],
             [
                 'category' => 'Antihistamines & Allergy',
@@ -288,7 +286,7 @@ class DatabaseSeeder extends Seeder
                 'selling_price' => 22.00,
                 'batches' => [
                     ['batch_number' => 'CET-2026-01', 'qty' => 28, 'cost' => 12.00, 'sell' => 22.00, 'exp' => now()->addMonths(10)->toDateString()],
-                ]
+                ],
             ],
             [
                 'category' => 'Antihistamines & Allergy',
@@ -305,7 +303,7 @@ class DatabaseSeeder extends Seeder
                 'batches' => [
                     // Low stock item (qty 6 <= reorder level 15)
                     ['batch_number' => 'LOR-2026-01', 'qty' => 6, 'cost' => 18.00, 'sell' => 30.00, 'exp' => now()->addMonths(8)->toDateString()],
-                ]
+                ],
             ],
             [
                 'category' => 'Vitamins & Dietary Supplements',
@@ -321,7 +319,7 @@ class DatabaseSeeder extends Seeder
                 'selling_price' => 50.00,
                 'batches' => [
                     ['batch_number' => 'VITC-2026-01', 'qty' => 40, 'cost' => 32.00, 'sell' => 50.00, 'exp' => now()->addMonths(18)->toDateString()],
-                ]
+                ],
             ],
             [
                 'category' => 'Vitamins & Dietary Supplements',
@@ -338,7 +336,7 @@ class DatabaseSeeder extends Seeder
                 'batches' => [
                     // Expiring in 45 days (<60 days alert)
                     ['batch_number' => 'MV-2026-01', 'qty' => 12, 'cost' => 30.00, 'sell' => 48.00, 'exp' => now()->addDays(45)->toDateString()],
-                ]
+                ],
             ],
             [
                 'category' => 'Cardiovascular & Hypertensive',
@@ -354,7 +352,7 @@ class DatabaseSeeder extends Seeder
                 'selling_price' => 40.00,
                 'batches' => [
                     ['batch_number' => 'AML-2026-01', 'qty' => 35, 'cost' => 25.00, 'sell' => 40.00, 'exp' => now()->addMonths(14)->toDateString()],
-                ]
+                ],
             ],
             [
                 'category' => 'Cardiovascular & Hypertensive',
@@ -371,7 +369,7 @@ class DatabaseSeeder extends Seeder
                 'batches' => [
                     // Low stock item (qty 5 <= reorder level 20)
                     ['batch_number' => 'LOS-2026-01', 'qty' => 5, 'cost' => 35.00, 'sell' => 55.00, 'exp' => now()->addMonths(12)->toDateString()],
-                ]
+                ],
             ],
             [
                 'category' => 'Diabetes & Endocrine',
@@ -387,7 +385,7 @@ class DatabaseSeeder extends Seeder
                 'selling_price' => 42.00,
                 'batches' => [
                     ['batch_number' => 'MET-2026-01', 'qty' => 50, 'cost' => 26.00, 'sell' => 42.00, 'exp' => now()->addMonths(16)->toDateString()],
-                ]
+                ],
             ],
             [
                 'category' => 'Gastrointestinal',
@@ -403,7 +401,7 @@ class DatabaseSeeder extends Seeder
                 'selling_price' => 32.00,
                 'batches' => [
                     ['batch_number' => 'OMP-2026-01', 'qty' => 40, 'cost' => 19.00, 'sell' => 32.00, 'exp' => now()->addMonths(11)->toDateString()],
-                ]
+                ],
             ],
             [
                 'category' => 'Gastrointestinal',
@@ -419,7 +417,7 @@ class DatabaseSeeder extends Seeder
                 'selling_price' => 24.00,
                 'batches' => [
                     ['batch_number' => 'GEL-2026-01', 'qty' => 30, 'cost' => 14.00, 'sell' => 24.00, 'exp' => now()->addMonths(15)->toDateString()],
-                ]
+                ],
             ],
             [
                 'category' => 'Respiratory & Cough',
@@ -435,7 +433,7 @@ class DatabaseSeeder extends Seeder
                 'selling_price' => 60.00,
                 'batches' => [
                     ['batch_number' => 'VENT-2026-01', 'qty' => 18, 'cost' => 40.00, 'sell' => 60.00, 'exp' => now()->addMonths(22)->toDateString()],
-                ]
+                ],
             ],
             [
                 'category' => 'Dermatology & Topicals',
@@ -453,7 +451,7 @@ class DatabaseSeeder extends Seeder
                     // Expired batch example for testing non-saleable protection and disposal alerts!
                     ['batch_number' => 'HYD-2025-EX', 'qty' => 8, 'cost' => 10.00, 'sell' => 18.00, 'exp' => now()->subMonths(2)->toDateString()],
                     ['batch_number' => 'HYD-2026-01', 'qty' => 22, 'cost' => 10.50, 'sell' => 18.00, 'exp' => now()->addMonths(14)->toDateString()],
-                ]
+                ],
             ],
         ];
 
@@ -509,7 +507,7 @@ class DatabaseSeeder extends Seeder
         $sampleSales = [
             [
                 'customer_id' => $customers[0]->id,
-                'invoice_number' => 'INV-' . date('Ymd') . '-0001',
+                'invoice_number' => 'INV-'.date('Ymd').'-0001',
                 'sale_date' => now()->subHours(4),
                 'payment_method' => 'cash',
                 'amount_paid' => 100.00,
@@ -517,11 +515,11 @@ class DatabaseSeeder extends Seeder
                 'items' => [
                     ['barcode' => '890123450001', 'qty' => 2], // Paracetamol
                     ['barcode' => '890123450007', 'qty' => 1], // Cetirizine
-                ]
+                ],
             ],
             [
                 'customer_id' => $customers[1]->id,
-                'invoice_number' => 'INV-' . date('Ymd') . '-0002',
+                'invoice_number' => 'INV-'.date('Ymd').'-0002',
                 'sale_date' => now()->subHours(2),
                 'payment_method' => 'mobile_money',
                 'amount_paid' => 140.00,
@@ -529,18 +527,18 @@ class DatabaseSeeder extends Seeder
                 'items' => [
                     ['barcode' => '890123450003', 'qty' => 1], // Amoxicillin (will deduct earliest non-expired batch)
                     ['barcode' => '890123450005', 'qty' => 2], // Coartem
-                ]
+                ],
             ],
             [
                 'customer_id' => null, // Walk-in customer
-                'invoice_number' => 'INV-' . date('Ymd') . '-0003',
+                'invoice_number' => 'INV-'.date('Ymd').'-0003',
                 'sale_date' => now()->subMinutes(45),
                 'payment_method' => 'card',
                 'amount_paid' => 50.00,
                 'sold_by' => $cashier->id,
                 'items' => [
                     ['barcode' => '890123450009', 'qty' => 1], // Vitamin C
-                ]
+                ],
             ],
         ];
 

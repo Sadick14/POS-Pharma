@@ -3,14 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Services\AlertService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    public function __construct(protected AlertService $alertService)
-    {
-    }
+    public function __construct(protected AlertService $alertService) {}
 
     public function index()
     {

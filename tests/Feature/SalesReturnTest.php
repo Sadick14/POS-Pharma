@@ -3,14 +3,12 @@
 namespace Tests\Feature;
 
 use App\Models\Category;
-use App\Models\Customer;
 use App\Models\Medicine;
 use App\Models\MedicineBatch;
 use App\Models\Sale;
 use App\Models\SaleItem;
 use App\Models\StockMovement;
 use App\Models\User;
-use App\Services\InventoryService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
@@ -20,9 +18,13 @@ class SalesReturnTest extends TestCase
     use RefreshDatabase;
 
     protected User $pharmacist;
+
     protected Medicine $medicine;
+
     protected MedicineBatch $batch;
+
     protected Sale $sale;
+
     protected SaleItem $saleItem;
 
     protected function setUp(): void
@@ -97,8 +99,8 @@ class SalesReturnTest extends TestCase
                     'quantity' => 1,
                     'unit_refund_price' => 40.00,
                     'is_resalable' => 1,
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $response->assertStatus(302);

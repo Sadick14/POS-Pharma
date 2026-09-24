@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\AuditLog;
 use App\Models\Category;
 use App\Models\Medicine;
-use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -20,8 +19,8 @@ class MedicineController extends Controller
         $categories = Category::orderBy('name')->get();
 
         $medicines = Medicine::with(['category', 'batches' => function ($q) {
-                $q->where('quantity', '>', 0)->orderBy('expiry_date', 'asc');
-            }])
+            $q->where('quantity', '>', 0)->orderBy('expiry_date', 'asc');
+        }])
             ->when($search, function ($q, $search) {
                 $q->where(function ($sub) use ($search) {
                     $sub->where('name', 'like', "%{$search}%")
@@ -43,6 +42,7 @@ class MedicineController extends Controller
     public function create()
     {
         $categories = Category::orderBy('name')->get();
+
         return view('medicines.create', compact('categories'));
     }
 
@@ -81,12 +81,14 @@ class MedicineController extends Controller
     public function show(Medicine $medicine)
     {
         $medicine->load(['category', 'batches.supplier', 'stockMovements.creator', 'stockAdjustments.adjuster']);
+
         return view('medicines.show', compact('medicine'));
     }
 
     public function edit(Medicine $medicine)
     {
         $categories = Category::orderBy('name')->get();
+
         return view('medicines.edit', compact('medicine', 'categories'));
     }
 
@@ -175,7 +177,7 @@ class MedicineController extends Controller
                             'selling_price' => (float) $b->selling_price,
                             'expiry_date' => $b->expiry_date->format('Y-m-d'),
                         ]),
-                    ]
+                    ],
                 ]);
             }
 

@@ -7,7 +7,6 @@ use App\Models\MedicineBatch;
 use App\Models\Purchase;
 use App\Models\Sale;
 use App\Models\SaleItem;
-use App\Models\StockMovement;
 use Illuminate\Support\Facades\DB;
 
 class ReportService

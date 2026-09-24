@@ -44,7 +44,7 @@ class SettingController extends Controller
             Setting::set($key, $val, 'general', $type);
         }
 
-        AuditLog::log('update', 'Settings', null, "Updated pharmacy general settings");
+        AuditLog::log('update', 'Settings', null, 'Updated pharmacy general settings');
 
         return back()->with('success', 'Pharmacy settings updated successfully.');
     }

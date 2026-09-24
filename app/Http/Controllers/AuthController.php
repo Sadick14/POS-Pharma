@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\AuditLog;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -13,9 +12,6 @@ class AuthController extends Controller
 {
     public function showLogin()
     {
-        if (Auth::check()) {
-            return redirect()->route('dashboard');
-        }
         return view('auth.login');
     }
 
@@ -31,10 +27,13 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $user = Auth::user();
 
-            if (!$user->isActive()) {
+            if (! $user->isActive()) {
                 Auth::logout();
+
                 return back()->withErrors(['email' => 'Your account is currently inactive. Please contact an administrator.']);
             }
+
+            $request->session()->regenerate();
 
             $user->update(['last_login_at' => now()]);
 
@@ -46,8 +45,6 @@ class AuthController extends Controller
                 'ip_address' => $request->ip(),
                 'user_agent' => $request->userAgent(),
             ]);
-
-            $request->session()->regenerate();
 
             return redirect()->intended(route('dashboard'))->with('success', "Welcome back, {$user->name}!");
         }
@@ -90,7 +87,7 @@ class AuthController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'phone' => ['nullable', 'string', 'max:50'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email,'.$user->id],
         ]);
 
         $user->update($validated);

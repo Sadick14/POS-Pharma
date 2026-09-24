@@ -72,4 +72,19 @@ class AuthTest extends TestCase
 
         $this->assertGuest();
     }
+
+    public function test_authenticated_user_cannot_access_login_screen(): void
+    {
+        $user = User::create([
+            'name' => 'Active Admin',
+            'email' => 'activeadmin@test.com',
+            'role' => User::ROLE_ADMIN,
+            'status' => 'active',
+            'password' => Hash::make('password123'),
+        ]);
+
+        $response = $this->actingAs($user)->get('/login');
+
+        $response->assertRedirect(route('dashboard'));
+    }
 }
